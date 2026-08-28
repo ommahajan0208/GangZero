@@ -1,0 +1,13 @@
+{
+  "total_nodes": 203769,
+  "total_edges": 234355,
+  "illicit_count": 4545,
+  "licit_count": 42019,
+  "unknown_count": 157205,
+  "labelled_count": 46564,
+  "illicit_ratio": 0.0976,
+  "time_steps": 49,
+  "time_step_min": 1,
+  "time_step_max": 49,
+  "avg_degree": 2.3002
+}
