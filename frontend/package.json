@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.102.8",
-    "@tanstack/react-table": "^9.2.4",
+    "@tanstack/react-table": "^8.21.3",
     "axios": "^1.20.0",
     "cytoscape": "^3.34.2",
     "lucide-react": "^1.37.0",
