@@ -7,7 +7,7 @@ export default function TopBar() {
       <div className="flex items-center gap-3">
         <Hexagon className="w-6 h-6 text-accent" strokeWidth={2.5} />
         <span className="text-[15px] font-bold tracking-wide text-gray-900">
-          RISKNET
+          AegisGraph
         </span>
         <span className="hidden sm:inline text-[13px] text-gray-400 font-medium ml-2">
           Bitcoin Fraud Detection

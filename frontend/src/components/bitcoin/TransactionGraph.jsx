@@ -48,7 +48,7 @@ export default function TransactionGraph({
       elements,
       layout: {
         name: 'cose',
-        animate: true,
+        animate: false,
         animationDuration: 300,
         nodeRepulsion: () => 8000,
         idealEdgeLength: () => 80,
@@ -135,7 +135,10 @@ export default function TransactionGraph({
     cyRef.current = cy;
 
     return () => {
-      cy.destroy();
+      if (cy) {
+        cy.stop(true, true);
+        cy.destroy();
+      }
       cyRef.current = null;
     };
   }, [elements, onNodeSelect]);

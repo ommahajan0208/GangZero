@@ -58,7 +58,7 @@ def extract_subgraph(
         vol = float(row["local_feat_0"])
         nodes.append({
             "id": tx,
-            "true_class": row["class"],
+            "true_class": str(row["class"]),
             "predicted_class": pred.get("predicted_class", "unknown"),
             "risk_score": risk,
             "time_step": int(row["time_step"]),

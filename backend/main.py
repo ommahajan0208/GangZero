@@ -24,7 +24,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="RISKNET API",
+    title="AegisGraph API",
     version="1.0.0",
     description="Bitcoin fraud detection platform.",
     lifespan=lifespan,

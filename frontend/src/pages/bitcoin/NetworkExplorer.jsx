@@ -61,26 +61,31 @@ export default function NetworkExplorer() {
       <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
         <div className="flex flex-wrap items-center gap-3">
           {/* Center node input */}
-          <form onSubmit={handleLoad} className="flex items-center gap-2">
-            <label className="text-[12px] font-medium text-gray-500 uppercase tracking-wider shrink-0">
-              Center:
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="txId"
-                className="w-36 pl-3 pr-3 py-2 bg-white border border-gray-300 rounded-lg text-[13px] font-mono text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
-              />
+          <div className="flex flex-col gap-1.5">
+            <form onSubmit={handleLoad} className="flex items-center gap-2">
+              <label className="text-[12px] font-medium text-gray-500 uppercase tracking-wider shrink-0">
+                Center:
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder="txId"
+                  className="w-36 pl-3 pr-3 py-2 bg-white border border-gray-300 rounded-lg text-[13px] font-mono text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+                />
+              </div>
+              <button
+                type="submit"
+                className="px-3 py-2 bg-red-700 hover:bg-red-800 text-white text-[13px] font-semibold rounded-lg transition-colors"
+              >
+                Load
+              </button>
+            </form>
+            <div className="text-[11px] text-gray-500">
+              Samples: <button type="button" onClick={() => setInputValue('232629023')} className="text-red-700 hover:underline">232629023 (Illicit)</button>, <button type="button" onClick={() => setInputValue('232438397')} className="text-green-700 hover:underline">232438397 (Licit)</button>, <button type="button" onClick={() => setInputValue('230425980')} className="text-gray-700 hover:underline">230425980 (Unknown)</button>
             </div>
-            <button
-              type="submit"
-              className="px-3 py-2 bg-red-700 hover:bg-red-800 text-white text-[13px] font-semibold rounded-lg transition-colors"
-            >
-              Load
-            </button>
-          </form>
+          </div>
 
           <div className="w-px h-8 bg-gray-200" />
 

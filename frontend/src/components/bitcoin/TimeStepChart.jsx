@@ -60,7 +60,7 @@ export default function TimeStepChart({ data = [] }) {
         />
         <Line
           type="monotone"
-          dataKey="illicit_count"
+          dataKey="illicit"
           name="Illicit"
           stroke="#F59E0B"
           strokeWidth={2}
@@ -69,7 +69,7 @@ export default function TimeStepChart({ data = [] }) {
         />
         <Line
           type="monotone"
-          dataKey="licit_count"
+          dataKey="licit"
           name="Licit"
           stroke="#16A34A"
           strokeWidth={2}

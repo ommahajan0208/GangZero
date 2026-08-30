@@ -4,8 +4,8 @@ export const RISK_THRESHOLDS = {
   // below 0.50 = VERIFIED/LICIT
 };
 
-export const getRiskLevel = (score, trueClass) => {
-  if (trueClass === 'unknown' || trueClass === '3') return 'unknown';
+export const getRiskLevel = (score) => {
+  if (score == null) return 'unknown';
   if (score >= RISK_THRESHOLDS.HIGH) return 'high';
   if (score >= RISK_THRESHOLDS.SUSPICIOUS) return 'suspicious';
   return 'verified';
