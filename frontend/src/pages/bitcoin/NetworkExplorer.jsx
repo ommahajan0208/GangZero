@@ -54,7 +54,7 @@ export default function NetworkExplorer() {
     <div className="space-y-4 h-full flex flex-col">
       <PageHeader
         title="Network Explorer"
-        subtitle="Interactive transaction graph — visualize neighborhoods"
+        subtitle="Interactive transaction graph - visualize neighborhoods"
       />
 
       {/* Toolbar */}
@@ -148,19 +148,34 @@ export default function NetworkExplorer() {
           icon={Network}
         />
       ) : isLoading ? (
-        <LoadingSpinner message="Building subgraph…" />
+        <LoadingSpinner message="Building subgraph-" />
       ) : error ? (
         <ErrorState message={error.message} />
       ) : (
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 min-h-[500px]">
           {/* Graph */}
-          <TransactionGraph
-            nodes={data?.nodes || []}
-            edges={data?.edges || []}
-            selectedNodeId={selectedNode?.id}
-            onNodeSelect={handleNodeSelect}
-            className="min-h-[500px]"
-          />
+          <div className="relative">
+            <TransactionGraph
+              nodes={data?.nodes || []}
+              edges={data?.edges || []}
+              selectedNodeId={selectedNode?.id}
+              onNodeSelect={handleNodeSelect}
+              className="min-h-[500px]"
+            />
+            {/* Stats badge */}
+            {data && (
+              <div className="absolute top-3 right-3 flex items-center gap-2">
+                <span className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg px-3 py-1.5 text-[11px] font-medium text-gray-600 shadow-sm">
+                  {data.node_count ?? data.nodes?.length ?? 0} nodes &middot; {data.edges?.length ?? 0} edges
+                </span>
+                {data.truncated && (
+                  <span className="bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5 text-[11px] font-semibold text-amber-700 shadow-sm">
+                    Capped at 300 nodes
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
 
           {/* Node detail panel */}
           <div className="bg-white rounded-lg border border-gray-200 p-5 shadow-sm overflow-y-auto">
@@ -182,9 +197,17 @@ export default function NetworkExplorer() {
                   )}
                   {selectedNode.true_class && (
                     <div className="flex justify-between text-[13px]">
-                      <span className="text-gray-400">Class:</span>
+                      <span className="text-gray-400">True Class:</span>
                       <span className="font-semibold capitalize text-gray-800">
                         {selectedNode.true_class}
+                      </span>
+                    </div>
+                  )}
+                  {selectedNode.predicted_class && (
+                    <div className="flex justify-between text-[13px]">
+                      <span className="text-gray-400">Predicted:</span>
+                      <span className="font-semibold capitalize text-gray-800">
+                        {selectedNode.predicted_class}
                       </span>
                     </div>
                   )}
@@ -198,7 +221,7 @@ export default function NetworkExplorer() {
                   )}
                   {selectedNode.risk_score != null && (
                     <div className="mt-3">
-                      <RiskBadge level={getRiskLevel(selectedNode.risk_score, selectedNode.true_class)} />
+                      <RiskBadge level={getRiskLevel(selectedNode.risk_score)} />
                     </div>
                   )}
                 </div>
@@ -222,9 +245,9 @@ export default function NetworkExplorer() {
                         const unknown = neighbors.length - illicit - licit;
                         return (
                           <>
-                            <p><span className="text-red-500">●</span> {illicit} illicit</p>
-                            <p><span className="text-green-500">●</span> {licit} licit</p>
-                            <p><span className="text-gray-400">●</span> {unknown} unknown</p>
+                            <p><span className="text-red-500">-</span> {illicit} illicit</p>
+                            <p><span className="text-green-500">-</span> {licit} licit</p>
+                            <p><span className="text-gray-400">-</span> {unknown} unknown</p>
                           </>
                         );
                       })()}

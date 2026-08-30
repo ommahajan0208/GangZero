@@ -6,7 +6,7 @@ export const useBitcoinStore = create((set) => ({
   graphDepth: 1,                    // 1 | 2 | 3
   graphDirection: 'both',           // 'incoming' | 'outgoing' | 'both'
   selectedClusterId: null,
-  clusterFilters: { minRisk: 0.7, minSize: 5, timeMin: 1, timeMax: 49 },
+  clusterFilters: { minRisk: 0, minSize: 0, timeMin: 1, timeMax: 49 },
 
   setSelectedTxId: (txId) => set({ selectedTxId: txId }),
   setModel: (model) => set({ selectedModel: model }),

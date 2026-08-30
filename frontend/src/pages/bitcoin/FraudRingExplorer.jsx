@@ -85,7 +85,7 @@ export default function FraudRingExplorer() {
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-2">
             <label className="text-[12px] font-medium text-gray-500 uppercase tracking-wider">
-              Risk ≥
+              Risk -
             </label>
             <input
               type="number"
@@ -103,7 +103,7 @@ export default function FraudRingExplorer() {
 
           <div className="flex items-center gap-2">
             <label className="text-[12px] font-medium text-gray-500 uppercase tracking-wider">
-              Size ≥
+              Size -
             </label>
             <input
               type="number"
@@ -130,7 +130,7 @@ export default function FraudRingExplorer() {
               onChange={(e) => handleFilterChange('timeMin', Number(e.target.value))}
               className="w-16 px-2 py-2 border border-gray-300 rounded-lg text-[13px] font-mono focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
             />
-            <span className="text-[12px] text-gray-400">–</span>
+            <span className="text-[12px] text-gray-400">-</span>
             <input
               type="number"
               min={1}
@@ -143,7 +143,7 @@ export default function FraudRingExplorer() {
 
           {clustersData && (
             <span className="ml-auto text-[12px] text-gray-400">
-              {clustersData.total} cluster{clustersData.total !== 1 ? 's' : ''} found
+              {(clustersData.total ?? clustersData.clusters?.length ?? 0)} cluster{(clustersData.total ?? clustersData.clusters?.length ?? 0) !== 1 ? 's' : ''} found
             </span>
           )}
         </div>
@@ -156,7 +156,7 @@ export default function FraudRingExplorer() {
         </div>
         <div className="p-4">
           {clustersLoading ? (
-            <LoadingSpinner message="Loading clusters…" />
+            <LoadingSpinner message="Loading clusters-" />
           ) : clustersError ? (
             <ErrorState message={clustersError.message} />
           ) : (
@@ -179,15 +179,44 @@ export default function FraudRingExplorer() {
           </div>
 
           {detailLoading ? (
-            <LoadingSpinner message="Loading cluster details…" />
-          ) : (
+            <LoadingSpinner message="Loading cluster details..." />
+          ) : clusterDetail ? (
             <>
+              {/* Cluster stat tiles */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="bg-red-50 border border-red-100 rounded-lg p-3 text-center">
+                  <p className="text-[10px] font-bold text-red-400 uppercase tracking-wider mb-1">Illicit Ratio</p>
+                  <p className="text-[22px] font-bold font-mono text-red-600">{formatPercent(clusterDetail.stats?.illicit_ratio)}</p>
+                </div>
+                <div className="bg-amber-50 border border-amber-100 rounded-lg p-3 text-center">
+                  <p className="text-[10px] font-bold text-amber-500 uppercase tracking-wider mb-1">Avg Risk Score</p>
+                  <p className="text-[22px] font-bold font-mono text-amber-600">{formatPercent(clusterDetail.stats?.avg_risk_score)}</p>
+                </div>
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-center">
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Known Illicit</p>
+                  <p className="text-[22px] font-bold font-mono text-gray-800">{formatNumber(clusterDetail.stats?.known_illicit_count)}</p>
+                </div>
+                <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-center">
+                  <p className="text-[10px] font-bold text-blue-400 uppercase tracking-wider mb-1">Time Span</p>
+                  <p className="text-[22px] font-bold font-mono text-blue-700">{clusterDetail.stats?.time_span_steps ?? '-'} steps</p>
+                </div>
+              </div>
+
               {/* Cluster graph */}
-              <TransactionGraph
-                nodes={clusterDetail?.nodes || []}
-                edges={clusterDetail?.edges || []}
-                className="min-h-[400px]"
-              />
+              <div className="relative">
+                <TransactionGraph
+                  nodes={clusterDetail.nodes || []}
+                  edges={clusterDetail.edges || []}
+                  className="min-h-[500px]"
+                />
+                {clusterDetail.truncated && (
+                  <div className="absolute top-3 right-3">
+                    <span className="bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5 text-[11px] font-semibold text-amber-700 shadow-sm">
+                      Showing first 300 of {clusterDetail.nodes?.length}+ nodes
+                    </span>
+                  </div>
+                )}
+              </div>
 
               {/* Why flagged */}
               {whyFlagged.length > 0 && (
@@ -196,7 +225,7 @@ export default function FraudRingExplorer() {
                   <ul className="space-y-2">
                     {whyFlagged.map((reason, i) => (
                       <li key={i} className="flex items-start gap-2 text-[13px] text-gray-700">
-                        <span className="text-red-500 mt-0.5">✦</span>
+                        <span className="text-red-500 mt-0.5">-</span>
                         {reason}
                       </li>
                     ))}
@@ -204,7 +233,7 @@ export default function FraudRingExplorer() {
                 </div>
               )}
             </>
-          )}
+          ) : null}
         </div>
       )}
     </div>

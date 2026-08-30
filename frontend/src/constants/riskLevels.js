@@ -19,8 +19,8 @@ export const VERDICT_LABELS = {
 };
 
 export const RECOMMENDED_ACTIONS = {
-  high: 'Reject — Do not proceed with verification',
-  suspicious: 'Manual Review — Flag for human inspection',
-  verified: 'Proceed — Verification passed',
-  unknown: 'Insufficient data — classification pending',
+  high: 'Reject - Do not proceed with verification',
+  suspicious: 'Manual Review - Flag for human inspection',
+  verified: 'Proceed - Verification passed',
+  unknown: 'Insufficient data - classification pending',
 };

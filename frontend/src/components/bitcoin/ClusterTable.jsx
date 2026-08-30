@@ -60,7 +60,7 @@ export default function ClusterTable({ clusters = [], onSelect }) {
       columns={columns}
       data={clusters}
       onRowClick={onSelect}
-      emptyMessage="No clusters match your filter — try lowering the risk threshold"
+      emptyMessage="No clusters match your filter - try lowering the risk threshold"
     />
   );
 }

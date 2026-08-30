@@ -38,7 +38,7 @@ export default function BitcoinDashboard() {
     staleTime: Infinity,
   });
 
-  if (statsLoading) return <LoadingSpinner message="Loading dashboard data…" />;
+  if (statsLoading) return <LoadingSpinner message="Loading dashboard data-" />;
   if (statsError) return <ErrorState message={statsError.message} />;
 
   const classDistribution = [
@@ -50,7 +50,7 @@ export default function BitcoinDashboard() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Bitcoin Fraud Detection — Overview"
+        title="Bitcoin Fraud Detection - Overview"
         subtitle="Elliptic dataset analysis with GNN-based risk classification"
       />
 
@@ -83,13 +83,33 @@ export default function BitcoinDashboard() {
         />
       </div>
 
+      {/* Secondary KPI row */}
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <MetricCard
+          label="Time Steps"
+          value={stats?.time_steps ?? '49'}
+          subLabel="Temporal snapshots in dataset"
+        />
+        <MetricCard
+          label="Total Edges"
+          value={formatNumber(stats?.total_edges)}
+          subLabel="BTC transaction flows"
+        />
+        <MetricCard
+          label="Labeled Transactions"
+          value={formatNumber(stats?.labelled_count)}
+          subLabel={`${formatNumber(stats?.illicit_count)} illicit + ${formatNumber(stats?.licit_count)} licit`}
+          color="blue"
+        />
+      </div>
+
       {/* Time Step Chart */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
         <h2 className="text-[18px] font-semibold text-gray-900 mb-4">
           Illicit vs Licit by Time Step
         </h2>
         {tsLoading ? (
-          <LoadingSpinner message="Loading time series…" />
+          <LoadingSpinner message="Loading time series-" />
         ) : (
           <TimeStepChart data={timeSeries} />
         )}
@@ -130,6 +150,9 @@ export default function BitcoinDashboard() {
                     <th className="text-right py-2 px-3 text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
                       F1
                     </th>
+                    <th className="text-right py-2 px-3 text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
+                      Accuracy
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -146,6 +169,9 @@ export default function BitcoinDashboard() {
                       </td>
                       <td className="py-3 px-3 text-right font-mono text-gray-700">
                         {formatMetric(metrics[model]?.f1_illicit)}
+                      </td>
+                      <td className="py-3 px-3 text-right font-mono text-gray-700">
+                        {formatMetric(metrics[model]?.accuracy)}
                       </td>
                     </tr>
                   ))}
@@ -194,7 +220,7 @@ export default function BitcoinDashboard() {
           </ResponsiveContainer>
           <p className="text-[11px] text-gray-400 mt-3 italic">
             * Illicit rate of {formatPercent(stats?.illicit_rate_labeled)} is computed
-            among labeled transactions only — {formatNumber(stats?.unknown_count)} unknown
+            among labeled transactions only - {formatNumber(stats?.unknown_count)} unknown
             transactions excluded.
           </p>
         </div>

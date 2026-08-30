@@ -11,7 +11,7 @@ export const useBitcoinTransaction = (txIdOverride, modelOverride) => {
     queryKey: ['transaction', txId, model],
     queryFn: () => fetchTransaction(txId, model),
     enabled: !!txId,
-    staleTime: Infinity, // dataset is static — no refetching needed
+    staleTime: Infinity, // dataset is static - no refetching needed
     retry: 1,
   });
 };

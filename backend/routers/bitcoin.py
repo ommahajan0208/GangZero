@@ -161,16 +161,16 @@ def get_graph(
 
 @router.get("/clusters")
 def get_clusters(
-    min_risk: float = Query(default=0.7, ge=0.0, le=1.0),
-    min_size: int = Query(default=5, ge=1),
+    min_risk: float = Query(default=0.0, ge=0.0, le=1.0),
+    min_size: int = Query(default=0, ge=0),
     time_step_min: int = Query(default=1, ge=1),
     time_step_max: int = Query(default=49, le=9999),
 ):
     clusters = _load_precomputed("bitcoin_clusters.json")
     filtered = [
         c for c in clusters
-        if c["avg_risk_score"] >= min_risk
-        and c["node_count"] >= min_size
+        if (min_risk == 0 or c["avg_risk_score"] >= min_risk)
+        and (min_size == 0 or c["node_count"] >= min_size)
         and c["time_step_max"] >= time_step_min
         and c["time_step_min"] <= time_step_max
     ]

@@ -81,7 +81,7 @@ export default function InvestigateTransaction() {
         <EmptyState message="Enter a transaction ID above to begin investigation" />
       )}
 
-      {isLoading && <LoadingSpinner message="Running model inference…" />}
+      {isLoading && <LoadingSpinner message="Running model inference-" />}
 
       {error && (
         <ErrorState
@@ -122,7 +122,7 @@ export default function InvestigateTransaction() {
                   <p className="text-[13px] text-gray-600">
                     <span className="text-gray-400">True Label:</span>{' '}
                     <span className="font-semibold capitalize">
-                      {normalizeTrueClass(data.true_class)}
+                      {data.true_class}
                     </span>
                   </p>
                   <p className="text-[13px] text-gray-600">
