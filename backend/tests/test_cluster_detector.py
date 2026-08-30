@@ -2,7 +2,6 @@
 Unit tests for cluster detector logic.
 """
 import pandas as pd
-import pytest
 from services.bitcoin.cluster_detector import detect_clusters
 
 
