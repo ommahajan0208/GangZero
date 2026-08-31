@@ -13,10 +13,10 @@ services:
       - key: CORS_ORIGINS
         value: https://aegisgraph-web.onrender.com
 
-  - type: static
-    name: aegisgraph-web
+staticSites:
+  - name: aegisgraph-web
     buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: frontend/dist
+    staticPublishPath: ./frontend/dist
     envVars:
       - key: VITE_API_URL
         value: https://aegisgraph-api.onrender.com
