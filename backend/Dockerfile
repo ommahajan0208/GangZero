@@ -10,6 +10,11 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
+    
+RUN mkdir -p /app/data/elliptic_bitcoin_dataset && \
+    curl -L -o /app/data/elliptic_bitcoin_dataset/elliptic_txs_features.csv "https://your-public-url.com/elliptic_txs_features.csv"
+RUN mkdir -p /app/backend/weights && \
+    curl -L -o /app/backend/weights/graphsage_best.pt "https://your-public-url.com/graphsage_best.pt"
 
 # Install python dependencies
 COPY requirements.txt .
