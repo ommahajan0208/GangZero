@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: aegisgraph-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    envVars:
+      - key: KAGGLE_USERNAME
+        sync: false
+      - key: KAGGLE_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        value: https://aegisgraph-web.onrender.com
+
+  - type: static
+    name: aegisgraph-web
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://aegisgraph-api.onrender.com

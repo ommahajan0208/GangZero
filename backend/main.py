@@ -1,11 +1,13 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+import os
 from contextlib import asynccontextmanager
 
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from config import settings
 from routers import bitcoin
 from services.bitcoin.data_loader import load_elliptic_data
 from services.bitcoin.inference import load_bitcoin_models
-from config import settings
 
 
 @asynccontextmanager
@@ -23,6 +25,15 @@ async def lifespan(app: FastAPI):
     # Shutdown: nothing to clean up for prototype
 
 
+cors_origins = [
+    origin.strip()
+    for origin in os.getenv(
+        "CORS_ORIGINS",
+        "http://localhost:3000,http://localhost:5173",
+    ).split(",")
+    if origin.strip()
+]
+
 app = FastAPI(
     title="AegisGraph API",
     version="1.0.0",
@@ -32,9 +43,11 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173"],
-    allow_methods=["GET", "POST"],
+    allow_origins=cors_origins,
+    allow_origin_regex=r"https://.*\.(onrender\.com|vercel\.app)$",
+    allow_methods=["*"],
     allow_headers=["*"],
+    allow_credentials=True,
 )
 
 app.include_router(bitcoin.router, prefix="/api/bitcoin", tags=["bitcoin"])

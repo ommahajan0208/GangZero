@@ -67,3 +67,37 @@ If you need to configure custom API keys or database endpoints, copy the example
 ```bash
 cp .env.example .env
 ```
+
+## Deploy to Render
+This project is split between a FastAPI backend and a Vite React frontend, and Render is the easiest way to deploy both.
+
+### Option A: Use the included Render blueprint
+1. Push this repository to GitHub.
+2. In Render, click New and choose Blueprint.
+3. Connect the GitHub repository.
+4. Select the repo and Render will read [render.yaml](C:/Users/sudhan/Desktop/gangzero/GangZero/render.yaml).
+5. Confirm the services and click Apply.
+
+### Option B: Create the services manually
+1. Create a new Render Web Service for the backend.
+   - Runtime: Docker
+   - Root directory: `backend`
+   - Dockerfile path: `./Dockerfile`
+   - Start command: `uvicorn main:app --host 0.0.0.0 --port 8000`
+   - Add environment variables:
+     - `KAGGLE_USERNAME`
+     - `KAGGLE_KEY`
+     - `CORS_ORIGINS=https://<your-frontend-domain>`
+2. Create a new Render Static Site for the frontend.
+   - Build command: `cd frontend && npm install && npm run build`
+   - Publish directory: `frontend/dist`
+   - Add environment variable:
+     - `VITE_API_URL=https://<your-backend-domain>`
+3. Wait for both services to finish deploying.
+4. Open the frontend URL and verify the app loads.
+
+### Important notes
+- If your frontend is not on Render, set `CORS_ORIGINS` to the exact frontend URL.
+- If your backend is not on Render, set `VITE_API_URL` to the backend URL.
+- If Render fails to download the Kaggle dataset, make sure your `KAGGLE_USERNAME` and `KAGGLE_KEY` values are valid and stored as Render environment variables.
+- After deployment, you can add a custom domain in the Render dashboard for both the backend and frontend services.
