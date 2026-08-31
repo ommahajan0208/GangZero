@@ -6,17 +6,22 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Install system dependencies (needed for some scientific packages)
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Install python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy requirements from the backend folder
+COPY backend/requirements.txt ./backend/requirements.txt
 
-# Copy the rest of the application code
+# Install python dependencies
+RUN pip install --no-cache-dir -r backend/requirements.txt
+
+# Copy the entire project (backend, data, etc.)
 COPY . .
+
+# Set the working directory to the backend so relative paths (like ../data) work
+WORKDIR /app/backend
 
 # Expose the port
 EXPOSE 8000

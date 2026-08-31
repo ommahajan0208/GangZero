@@ -1,0 +1,9 @@
+backend/venv/
+backend/env_main/
+backend/__pycache__/
+backend/.env
+.git/
+*.pyc
+frontend/
+docs/
+notebooks/
